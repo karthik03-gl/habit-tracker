@@ -67,29 +67,40 @@ export default function Home() {
           </Link>
         </div>
       ) : (
-        <div className="grid gap-4">
-          {todayHabits.map((habit) => (
-            <HabitCard
-              key={habit.id}
-              habit={habit}
-              completedCount={records[habit.id]?.[todayStr] || 0}
-              onIncrement={() => {
-                incrementHabit(habit.id, todayStr);
-                const current = records[habit.id]?.[todayStr] || 0;
-                if (current + 1 === habit.targetCount) {
-                  import("canvas-confetti").then((confetti) => {
-                    confetti.default({
-                      particleCount: 100,
-                      spread: 70,
-                      origin: { y: 0.6 },
-                      colors: [habit.color, '#ffffff']
+        <div className="space-y-6">
+          <div className="grid gap-4">
+            {todayHabits.map((habit) => (
+              <HabitCard
+                key={habit.id}
+                habit={habit}
+                completedCount={records[habit.id]?.[todayStr] || 0}
+                onIncrement={() => {
+                  incrementHabit(habit.id, todayStr);
+                  const current = records[habit.id]?.[todayStr] || 0;
+                  if (current + 1 === habit.targetCount) {
+                    import("canvas-confetti").then((confetti) => {
+                      confetti.default({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: [habit.color, '#ffffff']
+                      });
                     });
-                  });
-                }
-              }}
-              onToggle={() => toggleHabit(habit.id, todayStr)}
-            />
-          ))}
+                  }
+                }}
+                onToggle={() => toggleHabit(habit.id, todayStr)}
+              />
+            ))}
+          </div>
+          <div className="flex justify-center pt-4">
+            <Link 
+              href="/habits/new" 
+              className="flex items-center gap-2 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-900 dark:text-neutral-100 font-medium px-6 py-3 rounded-xl transition-colors shadow-sm"
+            >
+              <PlusCircle size={20} />
+              Add New Habit
+            </Link>
+          </div>
         </div>
       )}
     </div>
